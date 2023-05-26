@@ -9,8 +9,12 @@ export default {
       xl: '1440px',
     },
     colors: {
-      background: '#fff',
+      background: '#f5f7fa',
+      primary: '#F6F7FC',
+      white: '#fff',
+      black: '#000',
       blue: '#1fb6ff',
+      red: '#ff4949',
       purple: '#7e5bef',
       pink: '#ff49db',
       orange: '#ff7849',
@@ -34,4 +38,5 @@ export default {
       },
     },
   },
+  plugins: [require('@tailwindcss/forms')],
 };
