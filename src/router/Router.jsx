@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Home from '../views/Home';
 import About from '../views/About';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -7,7 +7,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Catalog from '../views/Catalog';
 import { fetchProducts } from '../api';
-
+import Products from '../views/Products';
+import NotFound from '../components/PageNotFound404';
 const routes = [
   {
     path: '/',
@@ -27,15 +28,17 @@ const routes = [
     path: '/catalog',
     element: <Catalog />,
   },
-  // {
-  //   path: '/catalog/:id',
-  //   element: <Products />,
-  // },
+  {
+    path: '/catalog/:_id',
+    element: <Products />,
+  },
   {
     path: '*',
-    element: <h1>404</h1>,
+    element: <NotFound />,
   },
 ];
+
+export const ProductContext = React.createContext();
 
 const routerWrapper = route => (
   <>
@@ -51,28 +54,44 @@ const routerWrapper = route => (
     {!route?.hideFooter && <Footer />}
   </>
 );
-
+// use context to pass data to the header
 const Router = () => {
-  const  products  = sessionStorage.getItem('products');
-  console.log('products', products);
+  const [products, setProducts] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
   React.useEffect(() => {
-    if (!products) {
-      fetchProducts();
-    } else {
-      console.log('Product data already in session storage');
+    if (products === null) {
+      setLoading(true);
+      fetchProducts()
+        .then(data => {
+          setProducts(data);
+        })
+        .catch(error => {
+          setError(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        {routes.map((route, index) => (
-          <Route key={index} path={route.path} element={routerWrapper(route)} />
-        ))}
-      </Routes>
-    </BrowserRouter>
+    <ProductContext.Provider
+      value={{ products: products ?? [], loading, error }}
+    >
+      <BrowserRouter>
+        <Routes>
+          {routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={routerWrapper(route)}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </ProductContext.Provider>
   );
 };
-
-
 
 export default Router;

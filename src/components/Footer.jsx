@@ -5,6 +5,25 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className="text-gray-600 body-font">
+      <div className="py-4 px-5 flex flex-col items-center justify-center bg-slate-500">
+        <h1 className="title-font font-medium  text-white">
+          Subscribe to our emails
+        </h1>
+        <div className="flex items-center py-2">
+          <input
+            className=" bg-input border-none w-full text-gray-700 mr-3 py-1 px-2 focus:outline-none rounded shadow-md"
+            type="email"
+            placeholder="Enter your email"
+            aria-label="email"
+          />
+          <button
+            className="flex-shrink-0 bg-gray hover:bg-blue-500 text-sm text-white py-2 px-2 rounded"
+            type="button"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
       <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <Link
           to="/"

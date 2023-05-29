@@ -1,12 +1,15 @@
-import React from 'react';
 import c1 from '../assets/c1.webp';
 import c2 from '../assets/c2.webp';
 import { Link } from 'react-router-dom';
+import CatalogItem from './CatalogCard';
+import { ProductContext } from '../router/Router';
+import { useContext } from 'react';
 
 const buttonStyle =
   'bg-slate-500 text-base md:text-lg hover:bg-slate-700 text-white  font-semibold hover:text-white py-2 px-4 border-2 border-white hover:border-transparent mr-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105';
 
 const Home = () => {
+  const { products } = useContext(ProductContext);
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
       <div className="relative flex flex-row justify-center items-center w-full h-full">
@@ -27,11 +30,7 @@ const Home = () => {
           {/* div containing 2 buttons for shop and contact, one outlined and one filled */}
           <div className="flex flex-row justify-center items-center my-2">
             <Link to="/catalog">
-              <button
-                type="button"
-                className={buttonStyle}
-
-              >
+              <button type="button" className={buttonStyle}>
                 Shop All
               </button>
             </Link>
@@ -59,6 +58,11 @@ const Home = () => {
         <h1 className=" text-2xl md:text-4xl font-bold text-gray-800 my-2">
           Premier Collection 'The Real Flex'
         </h1>
+        <div className="flex flex-wrap justify-center items-center w-full h-full">
+          {products.slice(0, 3).map(product => (
+            <CatalogItem product={product} key={product._id} />
+          ))}
+        </div>
       </div>
       {/* </div> */}
     </div>

@@ -22,23 +22,9 @@ const About = () => {
     'Order Now',
   ];
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.5,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 },
-  };
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
-      <div className="relative flex flex-row justify-center items-center w-full h-full">
+      <div className="relative flex flex-row justify-center items-center w-full h-full mb-4">
         <div className="flex flex-col justify-center items-center w-full h-96">
           <img
             src={about}
@@ -56,21 +42,18 @@ const About = () => {
               value&quot;
             </h2>
             <Link to="/catalog">
-              <button
-                type="button"
-                className={buttonStyle}
-              >
+              <button type="button" className={buttonStyle}>
                 View Store
               </button>
             </Link>
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center w-full h-full m-8">
+      <div className="flex flex-col justify-center items-center w-full h-full m-4">
         <h1 className="text-2xl md:text-4xl font-bold text-gray-800 my-2">
           Stonework Symphony
         </h1>
-        <p className="text-base md:text-2xl font-bold text-gray-800 m-2 w-4/5 md:w-1/2 text-center">
+        <p className="text-base md:text-xl font-bold text-gray-800 m-2 w-4/5 md:w-1/2 text-center">
           Welcome to our esteemed stone veneer business, where quarter a century
           of expertise and craftsmanship blend seamlessly with the natural
           beauty of Rajasthan, India. With a rich legacy spanning 25 years, our
@@ -82,22 +65,26 @@ const About = () => {
           time.
         </p>
       </div>
-      <div className="flex flex-col md:flex-row justify-center items-center w-full h-full m-8">
-        <div className="flex flex-col justify-center items-center w-full h-full m-8">
-          <img src={c2} alt="banner" className="w-full h-full object-cover" />
-        </div>
-        <div className="flex flex-col justify-center items-center w-full h-full m-8">
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-800 my-2">
-            Features
-          </h1>
-          <ul className="text-base md:text-2xl font-bold text-gray-800 m-2 w-4/5 md:w-1/2 text-center">
-            {
-              features.map(feature => (
-                <li className="mt-4" key={feature}>
-                  {feature}
-                </li>
-              ))
-            }
+      <hr className="w-4/5 md:w-3/4 border-1 border-gray-300" />
+      <br />
+      <h1 className="text-2xl md:text-4xl font-bold text-gray-800 m-2">
+        Features
+      </h1>
+      <div className="flex flex-col md:flex-row justify-center w-full h-full">
+        {/* <div className="flex flex-col justify-center items-center w-full h-full"> */}
+        <img src={c2} alt="banner" className="w-full h-full object-cover" />
+        {/* </div> */}
+        <div className="flex flex-col items-center w-full h-full">
+          <ul className="text-base md:text-xl font-bold text-gray-800 w-full text-center">
+            {features.map((feature, i) => (
+              <li
+                className="mt-4"
+                key={feature}
+                className={`${i % 2 === 0 ? 'bg-gray-300' : 'bg-gray-100'} p-3`}
+              >
+                {feature}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -110,9 +97,9 @@ const About = () => {
             Follow these essential steps to ensure a successful and long-lasting
             stone veneer installation.
           </p>
-          <ul className="text-sm md:text-xl font-bold text-gray-800 m-2 w-4/5 md:w-1/2 text-left">
+          <ul className="text-sm md:text-md font-bold text-gray-800 m-2 w-4/5 md:w-1/2 text-left">
             <li className="mt-4">
-              <span className="font-bold">Site Preparation:</span>
+              <span className="font-bold text-xl">Site Preparation:</span>
               <ul>
                 <li>
                   a. Inspect and clean the surface: Examine the surface for any
@@ -131,7 +118,7 @@ const About = () => {
               </ul>
             </li>
             <li className="mt-4">
-              <span className="font-bold">Mixing Mortar:</span>
+              <span className="font-bold text-xl ">Mixing Mortar:</span>
               <ul>
                 <li>
                   a. Select a suitable mortar mix: Use a pre-blended mortar mix
@@ -146,7 +133,9 @@ const About = () => {
               </ul>
             </li>
             <li className="mt-4">
-              <span className="font-bold">Applying the Scratch Coat:</span>
+              <span className="font-bold text-xl">
+                Applying the Scratch Coat:
+              </span>
               <ul>
                 <li>
                   a. Apply the mortar: Use a trowel to spread a 1/2 inch layer
@@ -163,7 +152,9 @@ const About = () => {
               </ul>
             </li>
             <li className="mt-4">
-              <span className="font-bold">Stone Veneer Installation:</span>
+              <span className="font-bold text-xl">
+                Stone Veneer Installation:
+              </span>
               <ul>
                 <li>
                   a. Lay out the stones: Arrange the veneers in a visually
@@ -190,7 +181,7 @@ const About = () => {
               </ul>
             </li>
             <li className="mt-4">
-              <span className="font-bold">Finishing Touches:</span>
+              <span className="font-bold text-xl">Finishing Touches:</span>
               <ul>
                 <li>
                   a. Tool the joints: Once the mortar in the joints has

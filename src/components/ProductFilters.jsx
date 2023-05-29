@@ -1,21 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Searchbar from './Searchbar';
 import { BsFilter } from 'react-icons/bs';
 
-const ProductFilters = ({
-  products,
-  filteredProducts,
-  setFilteredProducts,
-}) => {
-  const sortTypes = [
-    'Price: Low to High',
-    'Price: High to Low',
-    'Alphabetically, A-Z',
-    'Alphabetically, Z-A',
-    'Date, old to new',
-    'Date, new to old',
-  ];
+const ProductFilters = ({ products, setFilteredProducts }) => {
+  const sortTypes = {
+    'Price: Low to High': (a, b) => a.price - b.price,
+    'Price: High to Low': (a, b) => b.price - a.price,
+    'Alphabetically, A-Z': (a, b) => a.title.localeCompare(b.title),
+    'Alphabetically, Z-A': (a, b) => b.title.localeCompare(a.title),
+    'Date, old to new': (a, b) => a._createdAt - b._createdAt,
+    'Date, new to old': (a, b) => b._createdAt - a._createdAt,
+  };
   const [openFilterModal, setOpenFilterModal] = React.useState(false);
   const [filters, setFilters] = React.useState({
     search: '',
@@ -23,33 +18,19 @@ const ProductFilters = ({
     price: { min: 0, max: 0 },
     available: 'All',
   });
-  const sortProducts = (sortType, item) => {
-    switch (sortType) {
-      case 'Price: Low to High':
-        return item.sort((a, b) => a.price - b.price);
-      case 'Price: High to Low':
-        return item.sort((a, b) => b.price - a.price);
-      case 'Alphabetically, A-Z':
-        return item.sort((a, b) => a.title.localeCompare(b.title));
-      case 'Alphabetically, Z-A':
-        return item.sort((a, b) => b.title.localeCompare(a.title));
-      case 'Date, old to new':
-        return item.sort((a, b) => a.createdAt - b.createdAt);
-      case 'Date, new to old':
-        return item.sort((a, b) => b.createdAt - a.createdAt);
-      default:
-        return item;
-    }
-  };
-
+  console.log(filters);
   React.useEffect(() => {
     let allProducts = [...products];
     const { search, sort, price, available } = filters;
     if (search.length > 0) {
       //regex to match search term globally and case insensitive
       const regex = new RegExp(search, 'gi');
-      const filteredByTitle = products.filter(product => product.title.match(regex));
-      const filteredByDescription = products.filter(product => product.description.match(regex));
+      const filteredByTitle = products.filter(product =>
+        product.title.match(regex),
+      );
+      const filteredByDescription = products.filter(product =>
+        product.description.match(regex),
+      );
       allProducts = [...filteredByTitle, ...filteredByDescription];
     } else {
       allProducts = products;
@@ -61,17 +42,19 @@ const ProductFilters = ({
       allProducts = filtered;
     }
     if (available === 'In stock') {
-      const filtered = allProducts.filter(product => product?.available);
+      const filtered = allProducts.filter(product => product?.stock > 0);
       allProducts = filtered;
     } else if (available === 'Out of stock') {
-      const filtered = allProducts.filter(product => !product?.available);
+      console.log('out of stock');
+      const filtered = allProducts.filter(product => product?.stock <= 0);
       allProducts = filtered;
     }
-    if (sort) {
-      allProducts = sortProducts(sort, allProducts);
+    if (sortTypes[sort]) {
+      allProducts = allProducts.sort(sortTypes[sort]);
     }
+
     setFilteredProducts([...allProducts]);
-  }, [filters, products, setFilteredProducts]);
+  }, [filters]);
 
   return (
     <div
@@ -82,7 +65,6 @@ const ProductFilters = ({
         <Searchbar
           search={filters.search}
           setSearch={search => setFilters({ ...filters, search })}
-          filteredProducts={filteredProducts}
         />
         <div className="md:hidden" onClick={() => setOpenFilterModal(true)}>
           <BsFilter className="text-2xl m-2" />
@@ -97,18 +79,17 @@ const ProductFilters = ({
         </div>
       </div>
       <div className="hidden md:block">
-        <Filter filters={filters} setFilters={setFilters} />
+        <Filter
+          filters={filters}
+          setFilters={setFilters}
+          sortTypes={sortTypes}
+        />
       </div>
     </div>
   );
 };
 
-ProductFilters.PropTypes = {
-  products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setFilteredProducts: PropTypes.func.isRequired,
-};
-
-const Filter = ({ filters, setFilters }) => {
+const Filter = ({ filters, setFilters, sortTypes }) => {
   return (
     <div className="flex flex-col md:flex-row overflow-hidden  shadow-black/20">
       <div className="flex flex-col m-2">
@@ -124,12 +105,11 @@ const Filter = ({ filters, setFilters }) => {
           className="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
           onChange={e => setFilters({ ...filters, sort: e.target.value })}
         >
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Alphabetically, A-Z</option>
-          <option>Alphabetically, Z-A</option>
-          <option>Date, old to new</option>
-          <option>Date, new to old</option>
+          {Object.keys(sortTypes).map((sortType, index) => (
+            <option key={index} value={sortType}>
+              {sortType}
+            </option>
+          ))}
         </select>
       </div>
       <div className="flex flex-col m-2">
@@ -184,18 +164,13 @@ const Filter = ({ filters, setFilters }) => {
           className="block w-full mt-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
           onChange={e => setFilters({ ...filters, available: e.target.value })}
         >
+          <option>All</option>
           <option>In stock</option>
           <option>Out of stock</option>
-          <option>All</option>
         </select>
       </div>
     </div>
   );
-};
-
-Filter.propTypes = {
-  title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string),
 };
 
 const FilterModal = ({ open, setOpen, filters, setFilters }) => {

@@ -1,8 +1,43 @@
-import React from 'react';
-import Searchbar from '../components/Searchbar';
+import React, { useContext } from 'react';
 import CatalogCards from './CatalogCard';
 import ProductFilters from '../components/ProductFilters';
-import {getProducts} from "../api"
+import { ProductContext } from '../router/Router';
+import { AiOutlineLoading } from 'react-icons/ai';
+
+const Catalog = () => {
+  const { products, loading, error } = useContext(ProductContext);
+  const [filteredProducts, setFilteredProducts] = React.useState(products);
+
+  React.useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+  console.log(products);
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <h1 className="text-4xl font-bold text-left mt-4">Products</h1>
+
+      <ProductFilters
+        products={products}
+        filteredProducts={filteredProducts}
+        setFilteredProducts={setFilteredProducts}
+      />
+      {loading && <AiOutlineLoading className="animate-spin" />}
+      {error && (
+        <p className="inline-block rounded-[0.37rem] bg-red-100 p-2 text-center align-baseline font-bold leading-none text-red-700">
+          {error}
+        </p>
+      )}
+      <div className="flex flex-wrap justify-center">
+        {!loading &&
+          filteredProducts.map(product => (
+            <CatalogCards key={product.title} product={product} />
+          ))}
+      </div>
+    </div>
+  );
+};
+
+export default Catalog;
 
 // [
 //   {
@@ -41,26 +76,3 @@ import {getProducts} from "../api"
 //     price: 20.0,
 //   },
 // ]
-
-const Catalog = () => {
-  const [products, setProducts] = React.useState(getProducts());
-  const [filteredProducts, setFilteredProducts] = React.useState(products);
-
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <h1 className="text-4xl font-bold text-left mt-4">Products</h1>
-      <ProductFilters
-        products={products}
-        filteredProducts={filteredProducts}
-        setFilteredProducts={setFilteredProducts}
-      />
-      <div className="flex flex-wrap justify-center">
-        {filteredProducts.map(product => (
-          <CatalogCards key={product.title} product={product} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default Catalog;
