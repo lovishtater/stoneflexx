@@ -78,9 +78,8 @@ const About = () => {
           <ul className="text-base md:text-xl font-bold text-gray-800 w-full text-center">
             {features.map((feature, i) => (
               <li
-                className="mt-4"
                 key={feature}
-                className={`${i % 2 === 0 ? 'bg-gray-300' : 'bg-gray-100'} p-3`}
+                className={`${i % 2 === 0 ? 'bg-gray-300' : 'bg-gray-100'}mt-4 p-3`}
               >
                 {feature}
               </li>
