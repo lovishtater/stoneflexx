@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoLogoInstagram, IoLogoTwitter } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { emailValidator } from '../utils';
+import { client } from '../client';
 // tailwindcss classes are used here to style the footer
 const Footer = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      alert('Please enter your email');
+    } else if (!emailValidator(email)) {
+      alert('Please enter a valid email');
+    } else {
+      const data = {
+        _type: 'subscribeToMail',
+        email: email,
+      };
+      client.create(data).catch(err => alert('fail'));
+    }
+  };
+  console.log(email);
   return (
     <footer className="text-gray-600 body-font">
       <div className="py-4 px-5 flex flex-col items-center justify-center bg-slate-500">
@@ -15,10 +33,12 @@ const Footer = () => {
             type="email"
             placeholder="Enter your email"
             aria-label="email"
+            onChange={e => setEmail(e.target.value)}
           />
           <button
             className="flex-shrink-0 bg-gray hover:bg-blue-500 text-sm text-white py-2 px-2 rounded"
             type="button"
+            onClick={() => handleSubscribe()}
           >
             Sign Up
           </button>

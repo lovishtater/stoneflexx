@@ -14,7 +14,7 @@ const ProductFilters = ({ products, setFilteredProducts }) => {
   const [openFilterModal, setOpenFilterModal] = React.useState(false);
   const [filters, setFilters] = React.useState({
     search: '',
-    sort: '',
+    sort: 'Price: Low to High',
     price: { min: 0, max: 0 },
     available: 'All',
   });
