@@ -1,5 +1,5 @@
 import c2 from '../assets/c2.webp';
-import ConnectWithUs from '../components/connectWithUs';
+import ConnectWithUs from '../components/ConnectWithUs';
 const Contacts = () => {
   return (
     <div className="flex flex-col justify-center items-center">

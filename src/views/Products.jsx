@@ -6,7 +6,7 @@ import NotFound from '../assets/404.png';
 import { BsArrowLeft, BsArrowRight, BsCart } from 'react-icons/bs';
 import { ProductContext } from '../router/Router';
 import CatalogItem from './CatalogCard';
-import ConnectWithUs from '../components/connectWithUs';
+import ConnectWithUs from '../components/ConnectWithUs';
 
 const chipButtonbasic = `flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150 cursor-pointer p-2 m-2`;
 const chipButtonActive = chipButtonbasic + ` bg-gray-600 text-white`;
