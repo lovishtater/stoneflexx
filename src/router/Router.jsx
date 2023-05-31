@@ -9,6 +9,7 @@ import Catalog from '../views/Catalog';
 import { fetchProducts } from '../api';
 import Products from '../views/Products';
 import NotFound from '../components/PageNotFound404';
+import Admin from '../views/Admin';
 const routes = [
   {
     path: '/',
@@ -31,6 +32,10 @@ const routes = [
   {
     path: '/catalog/:_id',
     element: <Products />,
+  },
+  {
+    path: '/admin',
+    element: <Admin />,
   },
   {
     path: '*',
