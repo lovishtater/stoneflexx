@@ -79,7 +79,9 @@ const About = () => {
             {features.map((feature, i) => (
               <li
                 key={feature}
-                className={`${i % 2 === 0 ? 'bg-gray-300' : 'bg-gray-100'}mt-4 p-3`}
+                className={`${
+                  i % 2 === 0 ? 'bg-gray-300' : 'bg-gray-100'
+                }mt-4 p-3`}
               >
                 {feature}
               </li>

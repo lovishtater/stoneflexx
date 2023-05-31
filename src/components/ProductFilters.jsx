@@ -2,15 +2,16 @@ import React from 'react';
 import Searchbar from './Searchbar';
 import { BsFilter } from 'react-icons/bs';
 
+const sortTypes = {
+  'Price: Low to High': (a, b) => a.price - b.price,
+  'Price: High to Low': (a, b) => b.price - a.price,
+  'Alphabetically, A-Z': (a, b) => a.title.localeCompare(b.title),
+  'Alphabetically, Z-A': (a, b) => b.title.localeCompare(a.title),
+  'Date, old to new': (a, b) => a._createdAt - b._createdAt,
+  'Date, new to old': (a, b) => b._createdAt - a._createdAt,
+};
+
 const ProductFilters = ({ products, setFilteredProducts }) => {
-  const sortTypes = {
-    'Price: Low to High': (a, b) => a.price - b.price,
-    'Price: High to Low': (a, b) => b.price - a.price,
-    'Alphabetically, A-Z': (a, b) => a.title.localeCompare(b.title),
-    'Alphabetically, Z-A': (a, b) => b.title.localeCompare(a.title),
-    'Date, old to new': (a, b) => a._createdAt - b._createdAt,
-    'Date, new to old': (a, b) => b._createdAt - a._createdAt,
-  };
   const [openFilterModal, setOpenFilterModal] = React.useState(false);
   const [filters, setFilters] = React.useState({
     search: '',
@@ -18,7 +19,6 @@ const ProductFilters = ({ products, setFilteredProducts }) => {
     price: { min: 0, max: 0 },
     available: 'All',
   });
-  console.log(filters);
   React.useEffect(() => {
     let allProducts = [...products];
     const { search, sort, price, available } = filters;
@@ -42,12 +42,9 @@ const ProductFilters = ({ products, setFilteredProducts }) => {
       allProducts = filtered;
     }
     if (available === 'In stock') {
-      const filtered = allProducts.filter(product => product?.stock > 0);
-      allProducts = filtered;
+      allProducts = allProducts.filter(product => product?.stock > 0);
     } else if (available === 'Out of stock') {
-      console.log('out of stock');
-      const filtered = allProducts.filter(product => product?.stock <= 0);
-      allProducts = filtered;
+      allProducts = allProducts.filter(product => product?.stock <= 0);
     }
     if (sortTypes[sort]) {
       allProducts = allProducts.sort(sortTypes[sort]);
@@ -79,17 +76,13 @@ const ProductFilters = ({ products, setFilteredProducts }) => {
         </div>
       </div>
       <div className="hidden md:block">
-        <Filter
-          filters={filters}
-          setFilters={setFilters}
-          sortTypes={sortTypes}
-        />
+        <Filter filters={filters} setFilters={setFilters} />
       </div>
     </div>
   );
 };
 
-const Filter = ({ filters, setFilters, sortTypes }) => {
+const Filter = ({ filters, setFilters }) => {
   return (
     <div className="flex flex-col md:flex-row overflow-hidden  shadow-black/20">
       <div className="flex flex-col m-2">
@@ -178,7 +171,7 @@ const FilterModal = ({ open, setOpen, filters, setFilters }) => {
     <>
       {open && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+          <div className="flex items-center justify-center min-h-screen px-4 pt-4 text-center sm:block sm:p-0">
             <div
               className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
               aria-hidden="true"

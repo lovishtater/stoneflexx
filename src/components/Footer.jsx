@@ -6,8 +6,10 @@ import { client } from '../client';
 // tailwindcss classes are used here to style the footer
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async () => {
+    setLoading(true);
     if (!email) {
       alert('Please enter your email');
     } else if (!emailValidator(email)) {
@@ -17,10 +19,14 @@ const Footer = () => {
         _type: 'subscribeToMail',
         email: email,
       };
-      client.create(data).catch(err => alert('fail'));
+      await client
+        .create(data)
+        .then(() => alert('You have subscribed successfully'))
+        .catch(err => alert('fail to subscribe' + err));
+      setEmail('');
     }
+    setLoading(false);
   };
-  console.log(email);
   return (
     <footer className="text-gray-600 body-font">
       <div className="py-4 px-5 flex flex-col items-center justify-center bg-slate-500">
@@ -38,7 +44,8 @@ const Footer = () => {
           <button
             className="flex-shrink-0 bg-gray hover:bg-blue-500 text-sm text-white py-2 px-2 rounded"
             type="button"
-            onClick={() => handleSubscribe()}
+            disabled={loading}
+            onClick={() => !loading && handleSubscribe()}
           >
             Sign Up
           </button>

@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { emailValidator } from '../utils';
 import { client } from '../client';
 
-const ConnectWithUs = ({ heading = ' Email us to Place your order!', metadata = {} }) => {
+const ConnectWithUs = ({
+  heading = ' Email us to Place your order!',
+  metadata = {},
+}) => {
   const [contact, setContact] = useState({
     name: '',
     email: '',
@@ -13,8 +16,6 @@ const ConnectWithUs = ({ heading = ' Email us to Place your order!', metadata = 
   const handleChange = e => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
-
-  console.log(contact);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -29,13 +30,12 @@ const ConnectWithUs = ({ heading = ' Email us to Place your order!', metadata = 
       alert('Please enter a valid email');
     } else {
       await client
-      .create({
-        _type: 'contact',
-        metadata,
-        ...contact,
-
-      })
-      .catch(err => alert('fail' + err));
+        .create({
+          _type: 'contact',
+          metadata,
+          ...contact,
+        })
+        .catch(err => alert('fail' + err));
       await new Promise(resolve => setTimeout(resolve, 5000));
       alert('Your message has been sent successfully');
       setContact({

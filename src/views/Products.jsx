@@ -10,16 +10,11 @@ import ConnectWithUs from '../components/ConnectWithUs';
 import Chip from '../components/Chips';
 import { AiOutlineLoading } from 'react-icons/ai';
 
-const chipButtonbasic = `text-sm rounded-full hover:border-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150 cursor-pointer p-2 m-2`;
-const chipButtonActive = chipButtonbasic + `border-2 border-gray-600 `;
-const chipButtonInactive = chipButtonbasic + ` bg-gray-200 text-gray-600`;
-
 const Products = () => {
   const { _id } = useParams();
   // get the product from the context
   const { products, loading } = useContext(ProductContext);
   const currentProduct = products.find(product => product._id === _id);
-  console.log(currentProduct, 'products', _id);
   const [productDetails, setProductDetails] = React.useState({
     activeTag: null,
     imageIndex: 0,
@@ -32,17 +27,21 @@ const Products = () => {
 
     if (activeTag && activeColor) {
       index = currentProduct.images.findIndex(
-        product => product?.sizes?.includes(activeTag) && product?.colors?.includes(activeColor)
+        product =>
+          product?.sizes?.includes(activeTag) &&
+          product?.colors?.includes(activeColor),
       );
     } else if (activeTag) {
-      index = currentProduct?.images.findIndex(product => product?.sizes?.includes(activeTag));
+      index = currentProduct?.images.findIndex(product =>
+        product?.sizes?.includes(activeTag),
+      );
     } else if (activeColor) {
-      index = currentProduct.images.findIndex(
-        product => product?.colors?.includes(activeColor),
+      index = currentProduct.images.findIndex(product =>
+        product?.colors?.includes(activeColor),
       );
     }
 
-    return index >=0 ? index : 0;
+    return index >= 0 ? index : 0;
   };
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const Products = () => {
                     src={urlFor(
                       currentProduct.images[productDetails.imageIndex].image,
                     )}
-                    className='w-full h-full object-contain rounded-lg'
+                    className="w-full h-full object-contain rounded-lg"
                     alt={currentProduct.images[productDetails.imageIndex].alt}
                   />
                 </PinchZoomPan>
@@ -152,14 +151,14 @@ const Products = () => {
               </div>
             </div>
           </div>
-          <ConnectWithUs 
-          metadata={{
-            product : currentProduct.title,
-            product_id : currentProduct._id,
-            selected_size : productDetails.activeTag,
-            selected_color : productDetails.activeColor,
-            quantity : 1
-          }}
+          <ConnectWithUs
+            metadata={{
+              product: currentProduct.title,
+              product_id: currentProduct._id,
+              selected_size: productDetails.activeTag,
+              selected_color: productDetails.activeColor,
+              quantity: 1,
+            }}
           />
           <div className="flex flex-col items-center justify-center w-full h-full">
             <h1 className="text-2xl font-bold">Related Products</h1>

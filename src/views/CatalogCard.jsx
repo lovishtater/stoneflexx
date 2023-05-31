@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 
 const CatalogItem = ({ product }) => {
   return (
-    <Link to={`/catalog/${product._id}`}
-    onClick={() => window.scrollTo(0, 0, { behavior: 'smooth' })}
+    <Link
+      to={`/catalog/${product._id}`}
+      onClick={() => window.scrollTo(0, 0, { behavior: 'smooth' })}
     >
       <div className="flex flex-col p-4 m-4 rounded-lg shadow-lg bg-white hover:shadow-xl hover:bg-gray-50 max-w-sm">
         <div className="flex items-center justify-center">
