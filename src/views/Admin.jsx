@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { client } from '../client';
 import CsvDownloadButton from 'react-json-to-csv';
 const Admin = () => {
-  const [contacts, setContacts] = React.useState([]);
-  const [subscribers, setSubscribers] = React.useState([]);
+  const [contacts, setContacts] = React.useState([
+    { status : "Unauthorized, please login to view contacts" },
+  ]);
+  const [subscribers, setSubscribers] = React.useState([
+    { status : "Unauthorized, please login to view subscribers" },
+  ]);
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [currentTab, setCurrentTab] = useState('contacts');
