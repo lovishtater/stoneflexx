@@ -1,6 +1,12 @@
+
 {
     "version": 2,
-    "builds": [{ "src": "package.json", "use": "@now/static-build" }],
+    "builds": [
+        {
+            "src": "index.html",
+            "use": "@vitejs/plugin-react-refresh"
+        }
+        ],
     "routes": [
       { "src": "/(.*)", "dest": "index.html" }
     ]
