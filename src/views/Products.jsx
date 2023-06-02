@@ -16,41 +16,17 @@ const Products = () => {
   const { products, loading } = useContext(ProductContext);
   const currentProduct = products.find(product => product._id === _id);
   const [productDetails, setProductDetails] = React.useState({
-    activeTag: null,
+    activeSizeIndex: 0,
     imageIndex: 0,
-    activeColor: null,
+    activeColorIndex: 0,
   });
-
-  const setImage = () => {
-    const { activeTag, activeColor } = productDetails;
-    let index = 0;
-
-    if (activeTag && activeColor) {
-      index = currentProduct.images.findIndex(
-        product =>
-          product?.sizes?.includes(activeTag) &&
-          product?.colors?.includes(activeColor),
-      );
-    } else if (activeTag) {
-      index = currentProduct?.images.findIndex(product =>
-        product?.sizes?.includes(activeTag),
-      );
-    } else if (activeColor) {
-      index = currentProduct.images.findIndex(product =>
-        product?.colors?.includes(activeColor),
-      );
-    }
-
-    return index >= 0 ? index : 0;
-  };
 
   useEffect(() => {
     setProductDetails({
       ...productDetails,
-      imageIndex: setImage(),
+      imageIndex: productDetails.activeColorIndex,
     });
-  }, [productDetails.activeTag, productDetails.activeColor]);
-
+  }, [productDetails.activeColorIndex]);
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       {loading ? (
@@ -66,7 +42,7 @@ const Products = () => {
                       currentProduct.images[productDetails.imageIndex].image,
                     )}
                     className="w-full h-full object-contain rounded-lg"
-                    alt={currentProduct.images[productDetails.imageIndex].alt}
+                    alt={currentProduct.images[productDetails.imageIndex]?.alt}
                   />
                 </PinchZoomPan>
               </div>
@@ -103,19 +79,19 @@ const Products = () => {
               <p className="text-base">{currentProduct?.description}</p>
               <div className="flex flex-row w-full h-full">
                 <div className="flex flex-col w-full h-full">
-                  {currentProduct?.sizes && (
+                  {currentProduct?.prices && (
                     <>
                       <p className="text-base mt-2">Size</p>
                       <div className="flex flex-wrap w-full h-full">
-                        {currentProduct?.sizes?.map((size, index) => (
+                        {currentProduct?.prices?.map(({size}, index) => (
                           <Chip
                             key={index}
                             title={size}
-                            active={productDetails.activeTag === size}
+                            active={productDetails.activeSizeIndex === index}
                             onClick={() =>
                               setProductDetails({
                                 ...productDetails,
-                                activeTag: size,
+                                activeSizeIndex: index,
                               })
                             }
                           />
@@ -123,29 +99,31 @@ const Products = () => {
                       </div>
                     </>
                   )}
-                  {currentProduct?.colors && (
+                  {currentProduct?.images && (
                     <>
                       <p className="text-base mt-2">Color</p>
                       <div className="flex flex-wrap w-full h-full">
-                        {currentProduct?.colors?.map((color, index) => (
+                        {currentProduct?.images.map(({color}, index) => {
+                          if (color === undefined || color.trim() === '') return null;
+                          return(
                           <Chip
                             key={index}
                             title={color}
-                            active={productDetails.activeColor === color}
+                            active={productDetails.activeColorIndex === index}
                             onClick={() =>
                               setProductDetails({
                                 ...productDetails,
-                                activeColor: color,
+                                activeColorIndex: index,
                               })
                             }
                           />
-                        ))}
+                        )})}
                       </div>
                     </>
                   )}
                   <p className="text-base mt-2">Price</p>
                   <p className="text-base font-bold">
-                    ${currentProduct?.price}
+                    ${currentProduct?.prices[productDetails.activeSizeIndex]?.price}
                   </p>
                 </div>
               </div>
@@ -153,10 +131,10 @@ const Products = () => {
           </div>
           <ConnectWithUs
             metadata={{
-              product: currentProduct.title,
-              product_id: currentProduct._id,
-              selected_size: productDetails.activeTag,
-              selected_color: productDetails.activeColor,
+              product: currentProduct?.title,
+              product_id: currentProduct?._id,
+              selected_size: currentProduct?.prices[productDetails.activeSizeIndex].size,
+              selected_color: currentProduct?.images[productDetails.activeColorIndex].color,
               quantity: 1,
             }}
           />

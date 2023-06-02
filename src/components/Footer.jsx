@@ -3,7 +3,6 @@ import { IoLogoInstagram, IoLogoTwitter } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { emailValidator } from '../utils';
 import { client } from '../client';
-// tailwindcss classes are used here to style the footer
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,6 +38,7 @@ const Footer = () => {
             type="email"
             placeholder="Enter your email"
             aria-label="email"
+            value={email}
             onChange={e => setEmail(e.target.value)}
           />
           <button
