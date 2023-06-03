@@ -35,7 +35,7 @@ const Products = () => {
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-center w-full h-full m-4 p-4">
             <div className="flex flex-col items-center w-full h-full m-4 p-4">
-              <div className="flex flex-col items-center  w-full h-auto aspect-square m-4 p-4">
+              <div className="flex flex-col items-center  w-full h-auto aspect-square mx-4 mt-4 p-4">
                 <PinchZoomPan maxScale={2} position="center">
                   <img
                     src={urlFor(
@@ -138,7 +138,7 @@ const Products = () => {
               quantity: 1,
             }}
           />
-          <div className="flex flex-col items-center justify-center w-full h-full">
+          <div className="flex flex-col items-center justify-center w-full h-full my-8">
             <h1 className="text-2xl font-bold">Related Products</h1>
             <div className="flex flex-wrap items-center justify-center w-full h-full">
               {products?.slice(0, 3)?.map((product, index) => (
