@@ -12,7 +12,6 @@ import { AiOutlineLoading } from 'react-icons/ai';
 
 const Products = () => {
   const { _id } = useParams();
-  // get the product from the context
   const { products, loading } = useContext(ProductContext);
   const currentProduct = products.find(product => product._id === _id);
   const [productDetails, setProductDetails] = React.useState({
