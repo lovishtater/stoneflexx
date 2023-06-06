@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NotFound from '../assets/404.png';
-import { FcHome } from 'react-icons/fc';
-import { BsCart } from 'react-icons/bs';
+import { HomeIcon } from '../assets/icons';
 
 const PageNotFound = () => {
   return (
@@ -16,7 +15,7 @@ const PageNotFound = () => {
             to="/"
             className="flex flex-row items-center justify-center m-1 px-2 py-1 border-2 border-gray-600 rounded-lg hover:bg-gray-600 hover:text-white transition ease-in-out duration-150 shadow-lg"
           >
-            <FcHome className="text-2xl mr-1 pr-1" />
+            <HomeIcon className="w-8 h-8 text-2xl mr-1 pr-1" />
             Home
           </Link>
         </div>

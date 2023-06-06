@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IoMdClose, IoMdMenu } from 'react-icons/io';
+import { CloseIcon, MenuIcon } from '../assets/icons';
 
 const Header = () => {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +30,7 @@ const Header = () => {
               onClick={() => setOpen(!open)}
             >
               <span className="sr-only">Open menu</span>
-              <IoMdMenu />
+              <MenuIcon />
             </button>
           </div>
           <nav className="hidden md:flex space-x-10">
@@ -74,7 +74,7 @@ const Header = () => {
                     onClick={() => setOpen(!open)}
                   >
                     <span className="sr-only">Close menu</span>
-                    <IoMdClose />
+                    <CloseIcon />
                   </button>
                 </div>
               </div>

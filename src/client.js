@@ -11,4 +11,7 @@ export const client = sanityClient({
 
 const builder = imageUrlBuilder(client);
 
-export const urlFor = source => source ? builder.image(source) : 'https://i.ibb.co/y55h7sN/stoneflexx-Logo.jpg';
+export const urlFor = source =>
+  source
+    ? builder.image(source)
+    : 'https://i.ibb.co/y55h7sN/stoneflexx-Logo.jpg';

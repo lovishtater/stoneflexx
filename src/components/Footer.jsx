@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { IoLogoInstagram, IoLogoTwitter } from 'react-icons/io';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { emailValidator } from '../utils';
 import { client } from '../client';
+
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -64,19 +64,19 @@ const Footer = () => {
           <span className="ml-3 text-xl">StoneFlexx</span>
         </Link>
         <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-slate-500 sm:py-2 sm:mt-0 mt-4">
-          © 2021 StoneFlexx —
-          <a
+          © 2021 StoneFlexx
+          {/* <a
             href="https://twitter.com/stoneflexx"
             className="text-gray-600 ml-1"
             rel="noopener noreferrer"
             target="_blank"
           >
             @stoneflexx
-          </a>
+          </a> */}
         </p>
         <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-          <a
-            href="https://www.facebook.com/stoneflexx"
+          {/* <a
+            href="https://www.facebook.com"
             className="text-gray-500"
             rel="noopener noreferrer"
             target="_blank"
@@ -84,13 +84,13 @@ const Footer = () => {
             <IoLogoTwitter />
           </a>
           <a
-            href="https://www.instagram.com/stoneflexx"
+            href="https://www.instagram.com"
             className="ml-3 text-gray-500"
             rel="noopener noreferrer"
             target="_blank"
           >
             <IoLogoInstagram />
-          </a>
+          </a> */}
         </span>
       </div>
     </footer>

@@ -3,12 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import PinchZoomPan from 'react-responsive-pinch-zoom-pan';
 import { urlFor } from '../client';
 import NotFound from '../assets/404.png';
-import { BsArrowLeft, BsArrowRight, BsCart } from 'react-icons/bs';
 import { ProductContext } from '../router/Router';
 import CatalogItem from './CatalogCard';
 import ConnectWithUs from '../components/ConnectWithUs';
 import Chip from '../components/Chips';
-import { AiOutlineLoading } from 'react-icons/ai';
+import { ArrowLeft, ArrowRight, Cart, Loader } from '../assets/icons';
 
 const Products = () => {
   const { _id } = useParams();
@@ -29,7 +28,7 @@ const Products = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       {loading ? (
-        <AiOutlineLoading className="animate-spin" />
+        <Loader />
       ) : currentProduct ? (
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-center w-full h-full m-4 p-4">
@@ -46,8 +45,8 @@ const Products = () => {
                 </PinchZoomPan>
               </div>
               <div className="flex flex-row items-center justify-between w-full h-full mt-1 bg-input rounded-lg">
-                <BsArrowLeft
-                  className="text-2xl ml-4"
+                <ArrowLeft
+                  className="w-6 h-6 text-2xl ml-4"
                   onClick={() =>
                     productDetails.imageIndex > 0 &&
                     setProductDetails({
@@ -60,8 +59,8 @@ const Products = () => {
                 <p>
                   {productDetails.imageIndex + 1}/{currentProduct.images.length}
                 </p>
-                <BsArrowRight
-                  className="text-2xl mr-4"
+                <ArrowRight
+                  className="w-6 h-6 text-2xl mr-4"
                   onClick={() =>
                     productDetails.imageIndex <
                       currentProduct.images.length - 1 &&
@@ -82,7 +81,7 @@ const Products = () => {
                     <>
                       <p className="text-base mt-2">Size</p>
                       <div className="flex flex-wrap w-full h-full">
-                        {currentProduct?.prices?.map(({size}, index) => (
+                        {currentProduct?.prices?.map(({ size }, index) => (
                           <Chip
                             key={index}
                             title={size}
@@ -102,27 +101,33 @@ const Products = () => {
                     <>
                       <p className="text-base mt-2">Color</p>
                       <div className="flex flex-wrap w-full h-full">
-                        {currentProduct?.images.map(({color}, index) => {
-                          if (color === undefined || color.trim() === '') return null;
-                          return(
-                          <Chip
-                            key={index}
-                            title={color}
-                            active={productDetails.activeColorIndex === index}
-                            onClick={() =>
-                              setProductDetails({
-                                ...productDetails,
-                                activeColorIndex: index,
-                              })
-                            }
-                          />
-                        )})}
+                        {currentProduct?.images.map(({ color }, index) => {
+                          if (color === undefined || color.trim() === '')
+                            return null;
+                          return (
+                            <Chip
+                              key={index}
+                              title={color}
+                              active={productDetails.activeColorIndex === index}
+                              onClick={() =>
+                                setProductDetails({
+                                  ...productDetails,
+                                  activeColorIndex: index,
+                                })
+                              }
+                            />
+                          );
+                        })}
                       </div>
                     </>
                   )}
                   <p className="text-base mt-2">Price</p>
                   <p className="text-base font-bold">
-                    ${currentProduct?.prices[productDetails.activeSizeIndex]?.price}
+                    $
+                    {
+                      currentProduct?.prices[productDetails.activeSizeIndex]
+                        ?.price
+                    }
                   </p>
                 </div>
               </div>
@@ -132,8 +137,10 @@ const Products = () => {
             metadata={{
               product: currentProduct?.title,
               product_id: currentProduct?._id,
-              selected_size: currentProduct?.prices[productDetails.activeSizeIndex].size,
-              selected_color: currentProduct?.images[productDetails.activeColorIndex].color,
+              selected_size:
+                currentProduct?.prices[productDetails.activeSizeIndex].size,
+              selected_color:
+                currentProduct?.images[productDetails.activeColorIndex].color,
               quantity: 1,
             }}
           />
@@ -156,7 +163,7 @@ const Products = () => {
           <h1 className="text-2xl font-bold m-2">Sorry, no products found!</h1>
           <Link to="/catalog">
             <button className="bg-blue-300 hover:bg-blue-400 text-blue-800 font-bold py-2 px-4 rounded inline-flex items-center">
-              <BsCart className="w-4 h-4 mr-2" />
+              <Cart className="w-4 h-4 mr-2" />
               Go to Catalog
             </button>
           </Link>
