@@ -71,7 +71,6 @@ export const Cart = ({ className }) => (
   </svg>
 );
 
-
 export const HomeIcon = ({ className, onClick }) => (
   <svg
     aria-hidden="true"
@@ -115,8 +114,6 @@ export const CloseIcon = ({ className, onClick }) => (
   </svg>
 );
 
-const IoMdMenu = { "tag": "svg", "attr": { "viewBox": "0 0 512 512" }, "child": [{ "tag": "path", "attr": { "d": "M64 384h384v-42.666H64V384zm0-106.666h384v-42.667H64v42.667zM64 128v42.665h384V128H64z" } }] }
-
 export const MenuIcon = ({ className, onClick }) => (
   <svg
     aria-hidden="true"
@@ -132,4 +129,3 @@ export const MenuIcon = ({ className, onClick }) => (
     />
   </svg>
 );
-
