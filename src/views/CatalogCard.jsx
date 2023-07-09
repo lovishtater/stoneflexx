@@ -18,11 +18,20 @@ const CatalogItem = ({ product }) => {
         </div>
         <div className="flex flex-col mt-4 text-left">
           <h2 className="text-2xl font-bold text-gray-800">{product?.title}</h2>
-          <p className="text-m font-bold text-black-500">
-            {product?.prices?.length >= 1
-              ? `$${product?.prices[0]?.price}`
-              : ''}
-          </p>
+          {product?.prices[0]?.discountPrice ? (
+            <p className="text-md font-bold text-black-500">
+              <p className="inline-block text-sm font-bold text-gray-400 line-through mr-1">
+                ${product?.prices[0]?.price}
+              </p>
+              $ {product?.prices[0]?.discountPrice}
+            </p>
+          ) : (
+            <p className="text-md font-bold text-black-500">
+              {product?.prices?.length >= 1
+                ? `$${product?.prices[0]?.price}`
+                : ''}
+            </p>
+          )}
         </div>
       </div>
     </Link>
