@@ -122,12 +122,33 @@ const Products = () => {
                     </>
                   )}
                   <p className="text-base mt-2">Price</p>
-                  <p className="text-base font-bold">
-                    $
-                    {
-                      currentProduct?.prices[productDetails.activeSizeIndex]
-                        ?.price
-                    }
+                  <p className="text-xl font-bold">
+                    {currentProduct?.prices[productDetails.activeSizeIndex]
+                      ?.discountPrice ? (
+                      <div>
+                        <p className="inline-block text-base font-bold text-gray-400 line-through mr-2">
+                          $
+                          {
+                            currentProduct?.prices[
+                              productDetails.activeSizeIndex
+                            ]?.price
+                          }
+                        </p>
+                        $
+                        {
+                          currentProduct?.prices[productDetails.activeSizeIndex]
+                            ?.discountPrice
+                        }
+                      </div>
+                    ) : (
+                      <p className="text-xl font-bold">
+                        $
+                        {
+                          currentProduct?.prices[productDetails.activeSizeIndex]
+                            ?.price
+                        }
+                      </p>
+                    )}
                   </p>
                 </div>
               </div>
